@@ -1,0 +1,2458 @@
+{
+	"info": {
+		"_postman_id": "c4e315ec-73bb-424f-a82c-29bedae082a9",
+		"name": "Llamadas a mi reino de pruebas",
+		"description": "Biblioteca de llamadas HTTP hacia los servicios API REST del servidor Keycloak local",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27879457"
+	},
+	"item": [
+		{
+			"name": "Reino",
+			"item": [
+				{
+					"name": "Obtener lista de reinos Keycloak",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar reino por nombre",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear reino",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"realm\": \"mi-reino-api-rest\",\n    \"notBefore\": 0,\n    \"defaultSignatureAlgorithm\": \"RS256\",\n    \"revokeRefreshToken\": false,\n    \"refreshTokenMaxReuse\": 0,\n    \"accessTokenLifespan\": 300,\n    \"accessTokenLifespanForImplicitFlow\": 900,\n    \"ssoSessionIdleTimeout\": 1800,\n    \"ssoSessionMaxLifespan\": 36000,\n    \"ssoSessionIdleTimeoutRememberMe\": 0,\n    \"ssoSessionMaxLifespanRememberMe\": 0,\n    \"offlineSessionIdleTimeout\": 2592000,\n    \"offlineSessionMaxLifespanEnabled\": false,\n    \"offlineSessionMaxLifespan\": 5184000,\n    \"clientSessionIdleTimeout\": 0,\n    \"clientSessionMaxLifespan\": 0,\n    \"clientOfflineSessionIdleTimeout\": 0,\n    \"clientOfflineSessionMaxLifespan\": 0,\n    \"accessCodeLifespan\": 60,\n    \"accessCodeLifespanUserAction\": 300,\n    \"accessCodeLifespanLogin\": 1800,\n    \"actionTokenGeneratedByAdminLifespan\": 43200,\n    \"actionTokenGeneratedByUserLifespan\": 300,\n    \"oauth2DeviceCodeLifespan\": 600,\n    \"oauth2DevicePollingInterval\": 5,\n    \"enabled\": true,\n    \"sslRequired\": \"external\",\n    \"registrationAllowed\": false,\n    \"registrationEmailAsUsername\": false,\n    \"rememberMe\": false,\n    \"verifyEmail\": false,\n    \"loginWithEmailAllowed\": true,\n    \"duplicateEmailsAllowed\": false,\n    \"resetPasswordAllowed\": false,\n    \"editUsernameAllowed\": false,\n    \"bruteForceProtected\": false,\n    \"permanentLockout\": false,\n    \"maxFailureWaitSeconds\": 900,\n    \"minimumQuickLoginWaitSeconds\": 60,\n    \"waitIncrementSeconds\": 60,\n    \"quickLoginCheckMilliSeconds\": 1000,\n    \"maxDeltaTimeSeconds\": 43200,\n    \"failureFactor\": 30,\n    \"defaultRole\": {\n        \"id\": \"d496d569-4afb-4ed7-8ee4-5c39c9a87a16\",\n        \"name\": \"default-roles-mi-reino-api-rest\",\n        \"description\": \"${role_default-roles}\",\n        \"composite\": true,\n        \"clientRole\": false,\n        \"containerId\": \"2ebbfd0b-40e7-42e0-bc7e-6eca5171a532\"\n    },\n    \"requiredCredentials\": [\n        \"password\"\n    ],\n    \"otpPolicyType\": \"totp\",\n    \"otpPolicyAlgorithm\": \"HmacSHA1\",\n    \"otpPolicyInitialCounter\": 0,\n    \"otpPolicyDigits\": 6,\n    \"otpPolicyLookAheadWindow\": 1,\n    \"otpPolicyPeriod\": 30,\n    \"otpPolicyCodeReusable\": false,\n    \"otpSupportedApplications\": [\n        \"totpAppFreeOTPName\",\n        \"totpAppGoogleName\",\n        \"totpAppMicrosoftAuthenticatorName\"\n    ],\n    \"webAuthnPolicyRpEntityName\": \"keycloak\",\n    \"webAuthnPolicySignatureAlgorithms\": [\n        \"ES256\"\n    ],\n    \"webAuthnPolicyRpId\": \"\",\n    \"webAuthnPolicyAttestationConveyancePreference\": \"not specified\",\n    \"webAuthnPolicyAuthenticatorAttachment\": \"not specified\",\n    \"webAuthnPolicyRequireResidentKey\": \"not specified\",\n    \"webAuthnPolicyUserVerificationRequirement\": \"not specified\",\n    \"webAuthnPolicyCreateTimeout\": 0,\n    \"webAuthnPolicyAvoidSameAuthenticatorRegister\": false,\n    \"webAuthnPolicyAcceptableAaguids\": [],\n    \"webAuthnPolicyExtraOrigins\": [],\n    \"webAuthnPolicyPasswordlessRpEntityName\": \"keycloak\",\n    \"webAuthnPolicyPasswordlessSignatureAlgorithms\": [\n        \"ES256\"\n    ],\n    \"webAuthnPolicyPasswordlessRpId\": \"\",\n    \"webAuthnPolicyPasswordlessAttestationConveyancePreference\": \"not specified\",\n    \"webAuthnPolicyPasswordlessAuthenticatorAttachment\": \"not specified\",\n    \"webAuthnPolicyPasswordlessRequireResidentKey\": \"not specified\",\n    \"webAuthnPolicyPasswordlessUserVerificationRequirement\": \"not specified\",\n    \"webAuthnPolicyPasswordlessCreateTimeout\": 0,\n    \"webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister\": false,\n    \"webAuthnPolicyPasswordlessAcceptableAaguids\": [],\n    \"webAuthnPolicyPasswordlessExtraOrigins\": [],\n    \"browserSecurityHeaders\": {\n        \"contentSecurityPolicyReportOnly\": \"\",\n        \"xContentTypeOptions\": \"nosniff\",\n        \"referrerPolicy\": \"no-referrer\",\n        \"xRobotsTag\": \"none\",\n        \"xFrameOptions\": \"SAMEORIGIN\",\n        \"contentSecurityPolicy\": \"frame-src 'self'; frame-ancestors 'self'; object-src 'none';\",\n        \"xXSSProtection\": \"1; mode=block\",\n        \"strictTransportSecurity\": \"max-age=31536000; includeSubDomains\"\n    },\n    \"smtpServer\": {},\n    \"eventsEnabled\": false,\n    \"eventsListeners\": [\n        \"jboss-logging\"\n    ],\n    \"enabledEventTypes\": [],\n    \"adminEventsEnabled\": false,\n    \"adminEventsDetailsEnabled\": false,\n    \"identityProviders\": [],\n    \"identityProviderMappers\": [],\n    \"internationalizationEnabled\": false,\n    \"supportedLocales\": [],\n    \"browserFlow\": \"browser\",\n    \"registrationFlow\": \"registration\",\n    \"directGrantFlow\": \"direct grant\",\n    \"resetCredentialsFlow\": \"reset credentials\",\n    \"clientAuthenticationFlow\": \"clients\",\n    \"dockerAuthenticationFlow\": \"docker auth\",\n    \"attributes\": {\n        \"cibaBackchannelTokenDeliveryMode\": \"poll\",\n        \"cibaExpiresIn\": \"120\",\n        \"cibaAuthRequestedUserHint\": \"login_hint\",\n        \"oauth2DeviceCodeLifespan\": \"600\",\n        \"oauth2DevicePollingInterval\": \"5\",\n        \"parRequestUriLifespan\": \"60\",\n        \"cibaInterval\": \"5\",\n        \"realmReusableOtpCode\": \"false\"\n    },\n    \"userManagedAccessAllowed\": false,\n    \"clientProfiles\": {\n        \"profiles\": []\n    },\n    \"clientPolicies\": {\n        \"policies\": []\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar datos reino",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"realm\": \"mi-reino-actualizado-por-api-rest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar reino",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener eventos admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/admin-events",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"admin-events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener políticas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/client-policies/policies",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"client-policies",
+								"policies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener perfiles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/client-policies/profiles",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"client-policies",
+								"profiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener permisos de gestión de usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users-management-permissions",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users-management-permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener claves",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/keys",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"keys"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "Obtener clientes de un reino",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar cliente por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients?clientId={{cliente_id}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"clients"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "{{cliente_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar cliente por UUID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/{{cliente_uuid}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"clients",
+								"{{cliente_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"clientId\": \"mi-cliente-creado-api-rest\",\n        \"name\": \"Cliente creado desde API REST\",\n        \"description\": \"Aplicación cliente creada directamente usando los microservicios API REST que posee el entorno Keycloak.\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar datos cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Cliente actualizado desde API REST\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/87c6f07b-4fb5-4ac3-ac44-8ba12c7a0329",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"clients",
+								"87c6f07b-4fb5-4ac3-ac44-8ba12c7a0329"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/87c6f07b-4fb5-4ac3-ac44-8ba12c7a0329",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"clients",
+								"87c6f07b-4fb5-4ac3-ac44-8ba12c7a0329"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener permisos de autorización",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/{{cliente_uuid}}/management/permissions",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"clients",
+								"{{cliente_uuid}}",
+								"management",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener client secret",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/{{cliente_uuid}}/client-secret",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"clients",
+								"{{cliente_uuid}}",
+								"client-secret"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar client secret",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/{{cliente_uuid}}/client-secret",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"clients",
+								"{{cliente_uuid}}",
+								"client-secret"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Obtener lista de usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuario por UUID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users",
+								"{{usuario_acob0001_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuario por username",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users?username={{usuario_acob0001_nombre}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{usuario_acob0001_nombre}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuario por firstName",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users?firstName=Al",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "Al"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuario por lastName",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users?lastName=Cob",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users"
+							],
+							"query": [
+								{
+									"key": "lastName",
+									"value": "Cob"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuario por email",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users?email=acob0001@mail.net",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "acob0001@mail.net"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear nuevo usuario",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"mi-usuario-creado-api-rest\",\n    \"firstName\": \"Al\",\n    \"lastName\": \"Cob\",\n    \"email\": \"usuarioapirest@mail.net\",\n    \"emailVerified\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar datos usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users",
+								"{{usuario_acob0001_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users",
+								"{{usuario_acob0001_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener credenciales de un usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/credentials",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users",
+								"{{usuario_acob0001_uuid}}",
+								"credentials"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener grupos de usuarios asociados",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/groups",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users",
+								"{{usuario_acob0001_uuid}}",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener mapeo completo de roles asignados a un usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/role-mappings",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"users",
+								"{{usuario_acob0001_uuid}}",
+								"role-mappings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Grupos de usuarios",
+			"item": [
+				{
+					"name": "Obtener cantidad de grupos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/count",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"groups",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener listado de grupos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuarios pertenecientes a un grupo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}/members",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"groups",
+								"{{grupo_usuarios_uuid}}",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener mapeo completo de roles asignados a un grupo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}/role-mappings",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"groups",
+								"{{grupo_usuarios_uuid}}",
+								"role-mappings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear/modificar subgrupo hijo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"mi-subgrupo-creado-api-rest\",\n    \"path\": \"/mi-subgrupo-creado-api-rest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}/children",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"groups",
+								"{{grupo_usuarios_uuid}}",
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar grupo por UUID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"groups",
+								"{{grupo_usuarios_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear grupo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"mi-grupo-creado-api-rest\",\n    \"path\": \"/mi-grupo-creado-api-rest\",\n    \"subGroupCount\": 0,\n    \"subGroups\": [],\n    \"attributes\": {},\n    \"realmRoles\": [],\n    \"clientRoles\": {},\n    \"access\": {\n        \"view\": true,\n        \"viewMembers\": true,\n        \"manageMembers\": true,\n        \"manage\": true,\n        \"manageMembership\": true\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/admin/realms/{{reino_nombre}}/groups",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar datos grupo, ignorando subgrupos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"mi-grupo-actualizado-api-rest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"groups",
+								"{{grupo_usuarios_uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar grupo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_acceso}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}",
+							"host": [
+								"{{host_keycloak}}"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"{{reino_nombre}}",
+								"groups",
+								"{{grupo_usuarios_uuid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "A nivel de reino",
+					"item": [
+						{
+							"name": "Obtener lista roles de reino",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/roles",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar rol por UUID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/roles-by-id/{{rol_reino_uuid}}",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"roles-by-id",
+										"{{rol_reino_uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener roles de reino asignados a un usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/role-mappings/realm",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"users",
+										"{{usuario_acob0001_uuid}}",
+										"role-mappings",
+										"realm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener roles de reino asignados a un grupo de usuarios",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}/role-mappings/realm",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"groups",
+										"{{grupo_usuarios_uuid}}",
+										"role-mappings",
+										"realm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear rol de reino",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"rol-reino-api-rest\",\n    \"description\": \"Rol de reino creado mediante llamada HTTP a la API REST de Keycloak.\",\n    \"composite\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/roles",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Modificar datos rol de reino",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"rol-reino-api-rest\",\n    \"description\": \"Rol de reino cuya descripción ha sido modificada mediante llamada HTTP a la API REST de Keycloak.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/roles/rol-reino-api-rest",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"roles",
+										"rol-reino-api-rest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Elimnar rol de reino",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/roles/rol-reino-api-rest",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"roles",
+										"rol-reino-api-rest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Asignar roles de reino a un usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"id\": \"4a064301-90af-4da5-8da6-259c920364f1\",\n        \"name\": \"mi-rol-de-reino\",\n        \"description\": \"Rol personalizado a nivel de reino para realizar pruebas en el entorno Keycloak.\",\n        \"composite\": false,\n        \"clientRole\": false,\n        \"containerId\": \"2ebbfd0b-40e7-42e0-bc7e-6eca5171a532\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/role-mappings/realm",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"users",
+										"{{usuario_acob0001_uuid}}",
+										"role-mappings",
+										"realm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Desasignar roles de reino a un usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"id\": \"4a064301-90af-4da5-8da6-259c920364f1\",\n        \"name\": \"mi-rol-de-reino\",\n        \"description\": \"Rol personalizado a nivel de reino para realizar pruebas en el entorno Keycloak.\",\n        \"composite\": false,\n        \"clientRole\": false,\n        \"containerId\": \"2ebbfd0b-40e7-42e0-bc7e-6eca5171a532\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/role-mappings/realm",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"users",
+										"{{usuario_acob0001_uuid}}",
+										"role-mappings",
+										"realm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Asignar roles de reino a un grupo de usuarios",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"id\": \"4a064301-90af-4da5-8da6-259c920364f1\",\n        \"name\": \"mi-rol-de-reino\",\n        \"description\": \"Rol personalizado a nivel de reino para realizar pruebas en el entorno Keycloak.\",\n        \"composite\": false,\n        \"clientRole\": false,\n        \"containerId\": \"2ebbfd0b-40e7-42e0-bc7e-6eca5171a532\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}/role-mappings/realm",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"groups",
+										"{{grupo_usuarios_uuid}}",
+										"role-mappings",
+										"realm"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Desasignar roles de reino a un grupo de usuarios",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"id\": \"4a064301-90af-4da5-8da6-259c920364f1\",\n        \"name\": \"mi-rol-de-reino\",\n        \"description\": \"Rol personalizado a nivel de reino para realizar pruebas en el entorno Keycloak.\",\n        \"composite\": false,\n        \"clientRole\": false,\n        \"containerId\": \"2ebbfd0b-40e7-42e0-bc7e-6eca5171a532\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}/role-mappings/realm",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"groups",
+										"{{grupo_usuarios_uuid}}",
+										"role-mappings",
+										"realm"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "A nivel de cliente",
+					"item": [
+						{
+							"name": "Obtener listado roles de cliente",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/{{cliente_uuid}}/roles",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"clients",
+										"{{cliente_uuid}}",
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar rol por UUID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/roles-by-id/{{rol_cliente_uuid}}",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"roles-by-id",
+										"{{rol_cliente_uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Buscar rol de cliente por nombre",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/{{cliente_uuid}}/roles/{{rol_cliente_nombre}}",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"clients",
+										"{{cliente_uuid}}",
+										"roles",
+										"{{rol_cliente_nombre}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener roles de cliente asignados a un usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/role-mappings/clients/{{cliente_uuid}}",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"users",
+										"{{usuario_acob0001_uuid}}",
+										"role-mappings",
+										"clients",
+										"{{cliente_uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener roles de cliente asignados a un  grupo de usuarios",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}/role-mappings/clients/{{cliente_uuid}}",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"groups",
+										"{{grupo_usuarios_uuid}}",
+										"role-mappings",
+										"clients",
+										"{{cliente_uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener roles de cliente disponibles",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/role-mappings/clients/{{cliente_uuid}}/available",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"users",
+										"{{usuario_acob0001_uuid}}",
+										"role-mappings",
+										"clients",
+										"{{cliente_uuid}}",
+										"available"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener roles de cliente compuestos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/role-mappings/clients/{{cliente_uuid}}/composite",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"users",
+										"{{usuario_acob0001_uuid}}",
+										"role-mappings",
+										"clients",
+										"{{cliente_uuid}}",
+										"composite"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear rol de cliente",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"mi-rol-de-cliente-creado-api-rest\",\n    \"description\": \"Rol personalizado a nivel de cliente creado mediante llamada HTTP a la API de Keycloak.\",\n    \"composite\": false,\n    \"clientRole\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/{{cliente_uuid}}/roles",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"clients",
+										"{{cliente_uuid}}",
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Modificar datos rol de cliente",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"mi-rol-de-cliente-creado-api-rest\",\n    \"description\": \"Rol personalizado a nivel de cliente cuya descripción ha sido actualizada mediante llamada HTTP a la API de Keycloak.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/{{cliente_uuid}}/roles/mi-rol-de-cliente-creado-api-rest",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"clients",
+										"{{cliente_uuid}}",
+										"roles",
+										"mi-rol-de-cliente-creado-api-rest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar rol de cliente",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/clients/{{cliente_uuid}}/roles/mi-rol-de-cliente-creado-api-rest",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"clients",
+										"{{cliente_uuid}}",
+										"roles",
+										"mi-rol-de-cliente-creado-api-rest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Asignar rol de cliente a un usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"id\": \"acf0a0f7-696a-460a-8029-590254665179\",\n        \"name\": \"mi-rol-de-cliente\",\n        \"description\": \"Rol personalizado a nivel de cliente para realizar pruebas en el entorno Keycloak.\",\n        \"composite\": false,\n        \"clientRole\": true,\n        \"containerId\": \"70954380-cca5-4a80-bf78-2cf420f3ce25\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/role-mappings/clients/{{cliente_uuid}}",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"users",
+										"{{usuario_acob0001_uuid}}",
+										"role-mappings",
+										"clients",
+										"{{cliente_uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Desasignar rol de cliente a un usuario",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    {\n        \"id\": \"acf0a0f7-696a-460a-8029-590254665179\",\n        \"name\": \"mi-rol-de-cliente\",\n        \"description\": \"Rol personalizado a nivel de cliente para realizar pruebas en el entorno Keycloak.\",\n        \"composite\": false,\n        \"clientRole\": true,\n        \"containerId\": \"70954380-cca5-4a80-bf78-2cf420f3ce25\"\n    }\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/users/{{usuario_acob0001_uuid}}/role-mappings/clients/{{cliente_uuid}}",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"users",
+										"{{usuario_acob0001_uuid}}",
+										"role-mappings",
+										"clients",
+										"{{cliente_uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Asignar rol de cliente a un grupo de usuarios",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}/role-mappings/clients/{{cliente_uuid}}",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"groups",
+										"{{grupo_usuarios_uuid}}",
+										"role-mappings",
+										"clients",
+										"{{cliente_uuid}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Desasignar rol de cliente a un grupo de usuarios",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_acceso}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_keycloak}}/admin/realms/{{reino_nombre}}/groups/{{grupo_usuarios_uuid}}/role-mappings/clients/{{cliente_uuid}}",
+									"host": [
+										"{{host_keycloak}}"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"{{reino_nombre}}",
+										"groups",
+										"{{grupo_usuarios_uuid}}",
+										"role-mappings",
+										"clients",
+										"{{cliente_uuid}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Obtener JSON configuración OpenID Connect",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host_keycloak}}/realms/{{reino_nombre}}//.well-known/openid-configuration/",
+					"host": [
+						"{{host_keycloak}}"
+					],
+					"path": [
+						"realms",
+						"{{reino_nombre}}",
+						"",
+						".well-known",
+						"openid-configuration",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Iniciar sesión",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"token_acceso\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{cliente_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{cliente_secret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host_keycloak}}/realms/{{reino_nombre}}/protocol/openid-connect/token",
+					"host": [
+						"{{host_keycloak}}"
+					],
+					"path": [
+						"realms",
+						"{{reino_nombre}}",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token_acceso",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "host_keycloak",
+			"value": "http://localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "reino_nombre",
+			"value": "mi-reino-de-pruebas",
+			"type": "string"
+		},
+		{
+			"key": "cliente_id",
+			"value": "mi-aplicacion-cliente",
+			"type": "string"
+		},
+		{
+			"key": "cliente_uuid",
+			"value": "70954380-cca5-4a80-bf78-2cf420f3ce25",
+			"type": "string"
+		},
+		{
+			"key": "cliente_secret",
+			"value": "rxjoT6QuoliAm1yh9fvh7f8KDdBfurpp",
+			"type": "string"
+		},
+		{
+			"key": "usuario_acob0001_nombre",
+			"value": "acob0001",
+			"type": "string"
+		},
+		{
+			"key": "usuario_acob0001_uuid",
+			"value": "29bafede-646f-482b-ba08-dd75fb56dc9d",
+			"type": "string"
+		},
+		{
+			"key": "grupo_usuarios_nombre",
+			"value": "mi-grupo-de-pruebas",
+			"type": "string"
+		},
+		{
+			"key": "grupo_usuarios_uuid",
+			"value": "e572513b-2660-405b-9ca2-0f3227735791",
+			"type": "string"
+		},
+		{
+			"key": "rol_cliente_nombre",
+			"value": "mi-rol-de-cliente",
+			"type": "string"
+		},
+		{
+			"key": "rol_cliente_uuid",
+			"value": "acf0a0f7-696a-460a-8029-590254665179",
+			"type": "string"
+		},
+		{
+			"key": "rol_reino_nombre",
+			"value": "mi-rol-de-reino",
+			"type": "string"
+		},
+		{
+			"key": "rol_reino_uuid",
+			"value": "4a064301-90af-4da5-8da6-259c920364f1",
+			"type": "string"
+		}
+	]
+}
