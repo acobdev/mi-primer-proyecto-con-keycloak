@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @Service
 @Slf4j
-public class ServicioUsuariosImpl implements IServicioUsuarios
+public class KeycloakServicioUsuariosImpl implements IServicioUsuarios
 {
     /**
      * Método que devuelve la lista de usuarios registrados en nuestro reino Keycloak.
@@ -56,7 +56,7 @@ public class ServicioUsuariosImpl implements IServicioUsuarios
     @Override
     public String crearUsuario(UsuarioDTO usuarioDTO)
     {
-        UsersResource recursoUsuarios = KeycloakProveedor.getRecursoUsuarios();
+        UsersResource recursoUsuarios = KeycloakProveedor.getRecursosUsuarios();
         UserRepresentation representacionUsuario = new UserRepresentation();
         representacionUsuario.setUsername(usuarioDTO.getUsername());
         representacionUsuario.setFirstName(usuarioDTO.getFirstName());
@@ -125,7 +125,7 @@ public class ServicioUsuariosImpl implements IServicioUsuarios
     @Override
     public void eliminarUsuario(String usuarioId)
     {
-        KeycloakProveedor.getRecursoUsuarios()
+        KeycloakProveedor.getRecursosUsuarios()
                 .get(usuarioId)
                 .remove();
     }
@@ -155,7 +155,7 @@ public class ServicioUsuariosImpl implements IServicioUsuarios
         representacionUsuario.setCredentials(Collections.singletonList(credenciales));
 
         //Guardamos los cambios en el reino Keycloak:
-        UserResource recursoUsuario = KeycloakProveedor.getRecursoUsuarios().get(usuarioId);
+        UserResource recursoUsuario = KeycloakProveedor.getRecursosUsuarios().get(usuarioId);
         recursoUsuario.update(representacionUsuario);
     }
 }

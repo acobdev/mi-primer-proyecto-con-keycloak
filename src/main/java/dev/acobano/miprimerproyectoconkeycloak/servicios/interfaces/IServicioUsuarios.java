@@ -1,7 +1,6 @@
 package dev.acobano.miprimerproyectoconkeycloak.servicios.interfaces;
 
 import org.keycloak.representations.idm.UserRepresentation;
-
 import dev.acobano.miprimerproyectoconkeycloak.dto.UsuarioDTO;
 import java.util.List;
 
