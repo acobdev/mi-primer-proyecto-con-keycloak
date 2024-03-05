@@ -21,4 +21,8 @@ public interface IServicioRoles
     void asignarRolClienteAUsuario(String clienteUuid, String usuarioUuid, String nombreRol);
     void desasignarRolReinoAUsuario(String usuarioUuid, String nombreRol);
     void desasignarRolClienteAUsuario(String clienteUuid, String usuarioUuid, String nombreRol);
+    void asignarRolReinoAGrupo(String grupoUuid, String nombreRol);
+    void asignarRolClienteAGrupo(String clienteUuid, String grupoUuid, String nombreRol);
+    void desasignarRolReinoAGrupo(String grupoUuid, String nombreRol);
+    void desasignarRolClienteAGrupo(String clienteUuid, String grupoUuid, String nombreRol);
 }

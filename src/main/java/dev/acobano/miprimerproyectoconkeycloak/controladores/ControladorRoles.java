@@ -113,4 +113,40 @@ public class ControladorRoles
         return ResponseEntity.accepted()
                 .body("El rol con nombre " + nombreRol + " a nivel de cliente con UUID " + clienteUuid + "ha sido desasignado satisfactoriamente al usuario " + uuidUsuario);
     }
+
+    @PutMapping("/reino/{nombreRol}/grupo/{uuidGrupo}")
+    public ResponseEntity<String> asignarRolReinoAGrupo(@PathVariable String nombreRol, @PathVariable String uuidGrupo)
+    {
+        this.servicioRoles.asignarRolReinoAGrupo(uuidGrupo, nombreRol);
+        return ResponseEntity.accepted()
+                .body("El rol a nivel de reino con nombre " + nombreRol +
+                        " ha sido asignado satisfactoriamente al grupo " + uuidGrupo);
+    }
+
+    @DeleteMapping("/reino/{nombreRol}/grupo/{uuidGrupo}")
+    public ResponseEntity<String> desasignarRolReinoAGrupo(@PathVariable String nombreRol, @PathVariable String uuidGrupo)
+    {
+        this.servicioRoles.desasignarRolReinoAGrupo(uuidGrupo, nombreRol);
+        return ResponseEntity.accepted()
+                .body("El rol a nivel de reino con nombre " + nombreRol +
+                        " ha sido desasignado satisfactoriamente al grupo " + uuidGrupo);
+    }
+
+    @PutMapping("/{nombreRol}/cliente/{clienteUuid}/grupo/{uuidGrupo}")
+    public ResponseEntity<String> asignarRolClienteAGrupo(@PathVariable String nombreRol, @PathVariable String clienteUuid, @PathVariable String uuidGrupo)
+    {
+        this.servicioRoles.asignarRolClienteAGrupo(clienteUuid, uuidGrupo, nombreRol);
+        return ResponseEntity.accepted()
+                .body("El rol con nombre " + nombreRol + " a nivel de cliente con UUID " + clienteUuid +
+                        "ha sido asignado satisfactoriamente al grupo " + uuidGrupo);
+    }
+
+    @DeleteMapping("/{nombreRol}/cliente/{clienteUuid}/grupo/{uuidGrupo}")
+    public ResponseEntity<String> desasignarRolClienteAGrupo(@PathVariable String nombreRol, @PathVariable String clienteUuid, @PathVariable String uuidGrupo)
+    {
+        this.servicioRoles.desasignarRolClienteAGrupo(clienteUuid, uuidGrupo, nombreRol);
+        return ResponseEntity.accepted()
+                .body("El rol con nombre " + nombreRol + " a nivel de cliente con UUID " + clienteUuid +
+                        "ha sido desasignado satisfactoriamente al grupo " + uuidGrupo);
+    }
 }

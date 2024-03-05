@@ -5,10 +5,7 @@ import dev.acobano.miprimerproyectoconkeycloak.dto.RolDTO;
 import dev.acobano.miprimerproyectoconkeycloak.servicios.interfaces.IServicioRoles;
 import dev.acobano.miprimerproyectoconkeycloak.utiles.KeycloakProveedor;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.admin.client.resource.ClientResource;
-import org.keycloak.admin.client.resource.RoleResource;
-import org.keycloak.admin.client.resource.RolesResource;
-import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.admin.client.resource.*;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.springframework.stereotype.Service;
@@ -176,5 +173,41 @@ public class KeycloakServicioRolesImpl implements IServicioRoles
         RolesResource recursoRolesCliente = KeycloakProveedor.getRecursosRolesCliente(clienteUuid);
         RoleRepresentation representacionRol = recursoRolesCliente.get(nombreRol).toRepresentation();
         recursoUsuario.roles().clientLevel(clienteUuid).remove(Collections.singletonList(representacionRol));
+    }
+
+    @Override
+    public void asignarRolReinoAGrupo(String grupoUuid, String nombreRol)
+    {
+        GroupResource recursoGrupo = KeycloakProveedor.getRecursoGrupos().group(grupoUuid);
+        RolesResource recursoRolesReino = KeycloakProveedor.getRecursosRolesReino();
+        RoleRepresentation representacionRol = recursoRolesReino.get(nombreRol).toRepresentation();
+        recursoGrupo.roles().realmLevel().add(Collections.singletonList(representacionRol));
+    }
+
+    @Override
+    public void asignarRolClienteAGrupo(String clienteUuid, String grupoUuid, String nombreRol)
+    {
+        GroupResource recursoGrupo = KeycloakProveedor.getRecursoGrupos().group(grupoUuid);
+        RolesResource recursoRolesCliente = KeycloakProveedor.getRecursosRolesCliente(clienteUuid);
+        RoleRepresentation representacionRol = recursoRolesCliente.get(nombreRol).toRepresentation();
+        recursoGrupo.roles().clientLevel(clienteUuid).add(Collections.singletonList(representacionRol));
+    }
+
+    @Override
+    public void desasignarRolReinoAGrupo(String grupoUuid, String nombreRol)
+    {
+        GroupResource recursoGrupo = KeycloakProveedor.getRecursoGrupos().group(grupoUuid);
+        RolesResource recursoRolesReino = KeycloakProveedor.getRecursosRolesReino();
+        RoleRepresentation representacionRol = recursoRolesReino.get(nombreRol).toRepresentation();
+        recursoGrupo.roles().realmLevel().remove(Collections.singletonList(representacionRol));
+    }
+
+    @Override
+    public void desasignarRolClienteAGrupo(String clienteUuid, String grupoUuid, String nombreRol)
+    {
+        GroupResource recursoGrupo = KeycloakProveedor.getRecursoGrupos().group(grupoUuid);
+        RolesResource recursoRolesCliente = KeycloakProveedor.getRecursosRolesCliente(clienteUuid);
+        RoleRepresentation representacionRol = recursoRolesCliente.get(nombreRol).toRepresentation();
+        recursoGrupo.roles().clientLevel(clienteUuid).remove(Collections.singletonList(representacionRol));
     }
 }
