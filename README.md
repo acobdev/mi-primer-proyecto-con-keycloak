@@ -1,14 +1,38 @@
 # Mi primer proyecto con Keycloak
-Realizado por Álvaro Cobano
+Proyecto didáctico de iniciación al gestor de identidades Keycloak realizado por Álvaro Cobano.
 
 
-# 1. Introducción:
+# Índice de contenidos:
+[1. Introducción]({#seccion-1})
+[2. Terminología y conceptos básicos]({#seccion-2})
+[3. Enlaces de interés]({#seccion-3})
+[4. Primeros pasos con Keycloak]({#seccion-4})
+  [4.1. Instalación del servidor en el sistema]({#apartado-4-1})
+  [4.2. Configuración inicial del servidor Keycloak]({#apartado-4-2})
+  [4.3. Creación del reino de pruebas]({#apartado-4-3})
+  [4.4. Creación de la aplicación cliente/servidor de recursos]({#apartado-4-4})
+  [4.5. Creación de otras entidades Keycloak]({#apartado-4-5})
+    [4.5.1. Creación de usuarios]({#punto-4-5-1})
+    [4.5.2. Creación de grupos de usuarios]({#punto-4-5-2})
+[5. Gestión de autenticación/autorización de identidades mediante llamadas HTTP a la API REST de Keycloak]({#seccion-5})
+[6. Creación de un proyecto Spring Boot para la gestión de endpoints personalizados de interacción con el servidor Keycloak]({#seccion-6})
+[7. Extensión de funcionalidades personalizadas en Keycloak]({#seccion-7})
+  [7.1. ¿Qué es un SPI?]({#apartado-7-1})
+  [7.2. Procedimiento de inserción de proveedores personalizados en nuestro servidor Keycloak]({#apartado-7-2})
+  [7.3. Configuración de proveedores mediante la consola de comandos]({#apartado-7-3})
+    [7.3.1. Establecer una configuración por defecto de un proveedor]({#punto-7-3-1})
+    [7.3.2. Habilitar/deshabilitar un proveedor del servidor Keycloak]({#punto-7-3-2})
+  [7.4. Eventos de proveedores]({#apartado-7-4})
+  [7.5. Cómo crear tu propio SPI]({#apartado-7-5})
+
+
+# 1. Introducción: {#seccion-1}
 Keycloak es una plataforma de código abierto para soluciones de inicio de sesión único (*Single Sign-On, SSO*) que ofrece servicios de **autenticación**, **autorización** y **gestión de identidades** tanto para aplicaciones web como móviles. Actúa como un servidor de seguridad independiente a las aplicaciones que creemos a su alrededor, lo que nos permite a los desarrolladores la externalización de la gestión de usuarios y seguridad de nuestras aplicaciones. Keycloak está construído sobre **tecnologías de securización estándar robustas** como OpenID Connect, OAuth 2.0 y SAML, lo que garantiza la interoperabilidad y la integración con gran variedad de tecnologías debido a su alta **escalabilidad**.
 
 Una de las características más destacadas de Keycloak es su **alto nivel de abstracción** y su **diversa gama de funcionalidades** que permiten entre sus características una poderosa simplificación y seguridad en el proceso de autenticación y autorización de usuarios, roles y grupos en nuestras aplicaciones. Además, Keycloak ofrece una **interfaz de administración sobre navegador web** intuitiva para facilitar la configuración y el monitoreo de la seguridad de las aplicaciones. También es posible usar Keycloak como plataforma de integración para conectar a servidores **LDAP** y/o **Active Directory** preexistentes; así como el **inicio de sesión social** (*social login*) con redes sociales como Google, GitHub, Facebook o Twitter, o la **autenticación en dos factores** (*two-factor authentication*) compatible con TOTP/HOTP vía Google Authenticator o FreeOTP. Estos puntos y muchos más que veremos a lo largo del repositorio convierten a Keycloak en una solución completa y poderosa para las necesidades de securización de aplicaciones modernas, en el que la combinación de seguridad robusta y escalable, facilidad en su empleo y su amplia gama de funcionalidades lo convierten en una opción atractiva y asequible para administradores y organizaciones que deseen garantizar la seguridad y privacidad de las aplicaciones que desarrollen.
 
 
-# 2. Terminología y conceptos básicos:
+# 2. Terminología y conceptos básicos: {#seccion-2}
 Debido a la elevada y completa tecnología que Keycloak emplea en sus procesos de securización, existen ciertos términos técnicos de seguridad para esta plataforma que es preciso conocer antes de ponernos en materia:
 
 - **Autenticación**: Es el proceso de identificar y validar a un usuario en nuestra plataforma.
@@ -29,7 +53,7 @@ Debido a la elevada y completa tecnología que Keycloak emplea en sus procesos d
 - **Temas**: Los temas (en inglés *themes*) son plantillas HTML y hojas de estilo que respaldan las interfaces de usuario proporcionadas por Keycloak. Son fácilmente personalizables y anulables.
 
 
-# 3. Enlaces de interés:
+# 3. Enlaces de interés: {#seccion-3}
 - [Página web oficial de Keycloak](https://www.keycloak.org/)
 - [Repositorio GitHub oficial de Keycloak](https://github.com/keycloak/keycloak)
 - [Ubicación raíz de la documentación oficial de Keycloak](https://www.keycloak.org/documentation)
@@ -43,8 +67,8 @@ Debido a la elevada y completa tecnología que Keycloak emplea en sus procesos d
 - [Colección Postman con la lista completa de llamadas a la API REST de Keycloak](https://documenter.getpostman.com/view/7294517/SzmfZHnd)
 
 
-# 4. Primeros pasos con Keycloak:
-## 4.1. Instalación del servidor en el sistema:
+# 4. Primeros pasos con Keycloak: {#seccion-4}
+## 4.1. Instalación del servidor en el sistema: {#apartado-4-1}
 Para comenzar a trabajar con la plataforma Keycloak, será necesaria su instalación y puesta a punto en nuestro computador. Para ello, nos dirigiremos a la [página de descargas oficial de Keycloak](https://keycloak.org/downloads) y nos descargaremos el archivo ZIP del servidor cuya distribución se encuentra sostenida por Quarkus. Una vez descargado, descomprimiremos el archivo en el directorio cuya ruta deseemos guardar el programa dentro de nuestro sistema. Una vez ya correctamente descomprimido, encontraremos la siguiente estructura de subdirectorios:
 
 - */bin:* Este directorio contiene varios scripts de inicio y parada del servidor Keycloak, o para realizar cualquier otra acción de gestión. Los scripts más importantes son **kc.sh** y **kc.bat**, que se utilizan para iniciar y detener el servidor en entornos Linux y Windows respectivamente. Estos scripts se encargan de configurar el entorno, cargar las bibliotecas necesarias y arrancar el servidor.
@@ -75,12 +99,12 @@ Si no puedes acceder al servidor desde el localhost o quieres arrancar Keycloak 
 `bin/kc.[sh|bat] start`
 
 
-## 4.2. Configuración inicial del servidor Keycloak:
+## 4.2. Configuración inicial del servidor Keycloak: {#apartado-4-2}
 Una vez el servidor se encuentre levantado, podremos acceder a su interior insertando en el navegador web de nuestro gusto la dirección de nuestro localhost y el puerto en el que el proveedor de identidad se encuentra escuchando. De forma predefinida, este puerto es el 8080, pero como va a entrar en conflicto con las futuras aplicaciones Spring que crearemos en torno a nuestros proyectos, cambiaremos el puerto de escucha al 8081. Para ello, con el servidor apagado, será necesario acceder al subdirectorio */conf* recién descomprimido y abrir el archivo *keycloak.conf* con el editor de texto de nuestra preferencia. Es en este archivo donde se almacenan todas las configuraciones de seguridad de esta aplicación. Una vez dentro, escribimos al final del mismo la propiedad `http-port=8081` para nuestro caso específico. Podremos poner cualquier puerto que deseemos, siempre y cuando no entre en conflicto con cualquier otro que ya se encuentre en uso. Guardamos el archivo y levantamos el servidor de la forma que ha sido explicada en el anterior punto. Una vez levantado, accedemos a nuestro navegador web e introducimos la URL `localhost:8081`. Nos aparecerá la pantalla de bienvenida de Keycloak, en el cual para acceder a la Consola de Administración nos pedirá la creación de un usuario administrador mediante usuario y contraseña. 
 
 ![Pantalla de creación del usuario administrador](src/main/resources/screenshots/creacion-cuenta-admin.png)
 
-**Es muy importante recordar estas credenciales, ya que este usuario administrador tendrá todos los accesos necesarios tanto para acceder como para manipular nuestro servidor.** Una vez confirmados estos datos, presionamos el botón azul llamado *Create* y entramos en la consola. Nos aparecerá un formulario que volverá a pedir nuestras credenciales de administrador recién creadas para autenticarnos.  
+**Es muy importante recordar estas credenciales, ya que este usuario administrador tendrá todos los accesos necesarios tanto para acceder como para manipular nuestro servidor.** Una vez confirmados estos datos, presionamos el botón azul llamado *'Create'* y entramos en la consola. Nos aparecerá un formulario que volverá a pedir nuestras credenciales de administrador recién creadas para autenticarnos.  
 
 ![Formulario de autenticación de Keycloak](src/main/resources/screenshots/formulario-autenticacion.png)
 
@@ -107,7 +131,7 @@ Para observar los cambios realizados, deberemos cerrar la sesión seleccionando 
 ![Nuevo formulario con más funciones de inicio de sesión implementadas](src/main/resources/screenshots/formulario-inicio-sesion-ampliado.png)
 
 
-## 4.3. Creación del reino de pruebas:
+## 4.3. Creación del reino de pruebas: {#apartado-4-3}
 Como podremos comprobar, al iniciarse por primera vez un servidor Keycloak viene de fábrica un reino predefinido denominado *master*. Este reino contiene a los usuarios, roles y configuraciones necesarios para administrar el propio servidor Keycloak, además de ser el único reino que tiene acceso a la interfaz de administración.  Los reinos se encuentran aislados entre sí y sólo pueden gestionar y autenticar a los usuarios bajo su control. Su uso exclusivo es la administración y configuración del servidor principal; es por ello que, para su uso correcto, **nunca debemos crear nuestras aplicaciones y servicios cliente directamente sobre este reino, sino crear uno en exclusiva para nuestra aplicación.** 
 
 ![Diagrama de organización de reinos en Keycloak](src/main/resources/screenshots/organizacion_realms.png)
@@ -121,7 +145,7 @@ Insertamos los datos que deseemos que nuestro nuevo reino posea en su configurac
 ![Interfaz principal del nuevo reino de pruebas recién creado](src/main/resources/screenshots/reino-pruebas-creado.png)
 
 
-## 4.4. Creación de la aplicación cliente/servidor de recursos:
+## 4.4. Creación de la aplicación cliente/servidor de recursos: {#apartado-4-4}
 Una vez tenemos ya la partición lógica en nuestro servidor Keycloak lista para meternos en materia, vamos a proceder a la creación de un nuevo cliente que haga la función de servidor de recursos. De acuerdo con la especificación OAuth 2.0, un servidor de recursos es un servidor el cual aloja los recursos protegidos de nuestra apliación y que es capaz de aceptar y responder peticiones hacia estos recursos. Cualquier aplicación cliente puede ser configurada para soportar permisos de frano fino, convirtiéndolo conceptualmente en un servidor de recursos. Para ello, haremos click en la pestaña *'Clients'* del menú situado en el lado izquierdo de la interfaz de administración y, una vez en su interior, hacer click en el botón con fondo azul llamado *'Create client'*. Esto nos abrirá la ventana de interacción para introducir todos los datos nuevos que tendrá nuestro nuevo cliente. Rellenamos los campos de texto con dicha información y presionamos el botón *'Next'*.
 
 ![Primera pantalla de creación de un nuevo cliente en el reino Keycloak](src/main/resources/screenshots/crear-nuevo-cliente-1.png)
@@ -136,7 +160,8 @@ En la última ventana, presionamos el botón *'Save'*. Se nos abrirá una nueva 
 
 Por último, cambiaremos la vista hacia la pestaña *'Service accounts roles'* y, tras presionar el botón azul llamado *'Assign role'*, buscaremos en la lista de selección el rol del cliente *realm-management* llamado **realm-admin**, el cual nos permitirá poder emplear las llamadas HTTP mediante la API de Keycloak usando las credenciales de este cliente para su autenticación, como se verá en mayor profundidad durante la quinta sección del documento.
 
-## 4.5. Creación de usuarios, grupos de usuarios, roles y alcances.
+## 4.5. Creación de otras entidades Keycloak. {#apartado-4-5}
+### 4.5.1. Creación de usuarios: {#punto-4-5-1}
 Una vez diseñado correctamente tanto el rol de pruebas en el que desarrollaremos nuestra aplicación como el cliente encargado de realizar el trabajo de gestionar los recursos del reino, es la hora de introducir en el sistema a las diferentes entidades correspondientes. Como ya se comentó en el punto introductorio, uno de los puntos fuertes de Keycloak es su interfaz de usuario altamente amigable y personalizable, que permite a los administradores su completa libertad de movimiento sin apenas conocimientos previos sobre el tema. El menú lateral situado a la izquierda de la interfaz de Administración contiene pestañas dedicadas para la creación, modificación y eliminación de usuarios, grupos, alcances y roles, así como de botones vistosos que nos indican el flujo de gestión de estos elementos. Vamos, en primer lugar, a crear un usuario. Para ello, simplemente deberemos hacer click en la pestaña *'Users'* para que el sistema nos cargue en la vista la lista de usuarios del sistema, y únicamente tengamos que darle al botón azul llamado *'Add user'*.
 
 ![Interfaz de creación de un nuevo usuario en el reino Keycloak](src/main/resources/screenshots/crear-nuevo-usuario.png)
@@ -145,9 +170,14 @@ Rellenamos todos los datos necesarios en los correspondientes paneles de texto y
 
 ![Vista general del nuevo usuario recién creado](src/main/resources/screenshots/vista-general-usuario.png)
 
+
+### 4.5.2. Creación de grupos de usuarios: {#punto-4-5-2}
 Crear un grupo de usuarios es igual de sencillo. Únicamente deberemos hacer click en la pestaña *'Groups'* situada en el menú en parte izquierda de la interfaz de Administración, y posteriormente presionar el botón azul *'Create group'*. Nos saltará una ventana de alerta pidiendo el nombre que tendrá el nuevo grupo y, tras decidirlo, presionar el botón *'Create'*. El nuevo grupo aparecerá en la lista, listo para que interacciones con él y puedas asignarle usuarios y roles de grupo.
 
-Hay dos tipos de roles, y por lo tanto dos formas diferentes de crearlos, uno por cada tipo. Para crear un rol *a nivel de reino*, únicamente será necesario presionar en la pestaña *'Realm roles'* del menú situado a la izquierda de la interfaz de Administración, y después presionar el botón azul *'Create role'*. Se nos abrirá una ventana nueva para que el administrador pueda insertar los datos del nuevo rol de reino a crear.
+![Pantalla de creación de un nuevo grupo de usuarios](src/main/resources/screenshots/creando-grupo-usuarios.png)
+
+### 4.5.3. Creación de roles: {#punto-4-5-3}
+Hay dos tipos de roles, y por tanto dos formas diferentes de crearlos, uno por cada tipo. Para crear un rol *a nivel de reino*, únicamente será necesario presionar en la pestaña *'Realm roles'* del menú situado a la izquierda de la interfaz de Administración, y después presionar el botón azul *'Create role'*. Se nos abrirá una ventana nueva para que el administrador pueda insertar los datos del nuevo rol de reino a crear.
 
 ![Vista de creación de un nuevo rol a nivel de reino](src/main/resources/screenshots/crear-rol-reino.png)
 
@@ -156,7 +186,7 @@ Una vez listo, dale al botón *'Save'*. El nuevo rol aparecerá en la lista, pre
 ![Vista de creación de un nuevo rol a nivel de cliente](src/main/resources/screenshots/crear-rol-cliente.png)
 
 
-# 5. Gestión de autenticación/autorización de identidades mediante llamadas HTTP a la API REST de Keycloak:
+# 5. Gestión de autenticación/autorización de identidades mediante llamadas HTTP a la API REST de Keycloak: {#seccion-5}
 Como ya ha sido comentado en el punto introductorio, Keycloak es una solución para inicio de sesión único tanto para aplicaciones web y móvil como para servicios RESTful, que permite a los desarrolladores interactuar y gestionar de forma programática diversos aspectos de la plataforma. Este conjunto de llamadas API REST proporcionan una interfaz bien definida y documentada que permite realizar operaciones CRUD mediante solicitudes HTTP estándar mediante el uso de los métodos GET, POST, PUT y DELETE. Los datos se intercambian en formato JSON, la notación estándar del paradigma REST, la cual destaca en su flexibilidad y capacidad de integración con todo tipo de aplicaciones y plataformas. Los desarrolladores/administradores pueden emplear esta funcionalidad como recurso alternativo a la interfaz de Administración para interactuar con las entidades de tu servidor Keycloak, siendo igual de diversa y potente que esta. Podrás encontrar la documentación oficial del servicio de llamadas HTTP a la API REST de Keycloak en el [siguiente enlace](https://www.keycloak.org/docs-api/23.0.6/rest-api/index.html), y en este mismo repositorio se encuentra una colección de Postman en la que encontrarás todo tipo de llamadas guardadas y separadas por grupos.
 
 Para poder interactuar con el cliente de Keycloak que hemos creado en el punto anterior, deberemos primero obtener un token de autenticación del servidor para la securización de nuestras aplicaciones, estando protegidas con el esquema de la **autenticación Bearer**. Una vez obtengamos ese token del servidor, podremos hacer llamadas al resto de endpoints disponibles en la colección. Para la ejecución de este punto recomiendo el uso del programa Postman, el cual es una herramienta muy popular utilizada para crear, probar y documentar APIs mediante llamadas HTTP. Estas llamadas se realizan mediante el uso de los estándares abiertos como **OpenID Connect**, el cual tiene un endpoint público para que los desarrolladores puedan interactuar con él. Simplemente, hay que realizar una llamada de tipo GET al endpoint `/realms/{{realm}}/.well-known/openid-configuration/`. Si el servidor se encuentra debidamente operativo, habrá una respuesta con código 200 y un JSON en su body con todo tipo de endpoints y características del estándar. El endpoint necesario para la obtención de nuestro token de acceso es aquel que se encuentra en el valor **"token_endpoint"** del JSON de salida. Cogeremos dicho endpoint y lo pondremos en otra llamada HTTP, esta vez de tipo POST. Como es con este token con el que nos autenticaremos con el cliente/servidor de recursos, deberemos poner los siguientes parámetros en el body de nuestra petición:
@@ -166,7 +196,7 @@ Para poder interactuar con el cliente de Keycloak que hemos creado en el punto a
 En el que **client_id** y **client_secret** son las credenciales del cliente/servidor de recursos que podremos obtener desde la subpestaña *'Credentials'* en la interfaz de Administración. Por último, le damos al botón *'Send'* para enviar la petición. Si todo ha salido correctamente, este nos devolverá una respuesta con código 200 y un JWT en el valor del atributo **access_token**. Este es el token que deberá ser empleado en el resto de llamadas a la API REST de Keycloak, usando la opción *'Bearer token'* del menú desplegable situado en la pestaña *Authorization* de la llamada HTTP en sí. También nos indicará el tiempo de expiración del token en segundos en el valor **expires_in**. JWT (del inglés *JSON Web Token*) es un estándar abierto basado en JSON que permiten la propagación de identidad de un usuario. Este token está firmado por la clave del servidor, por lo que el cliente y el servidor son ambos capaces de verificar que el token es legítimo. Estos JWT están formados por tres partes: un encabezado o *header* que indica el algoritmo usado en la firma, un contenido o *payload* donde se encuentra toda la información de los privilegios del token, y una firma o *signature* que está calculada codificando las dos anteriores partes en Base64. Estas tres partes se encuentran concatenadas usando puntos como separadores. Puedes decodificar un JWT en [este enlace](https://jwt.io/).
 
 
-# 6. Creación de un proyecto Spring Boot para la gestión de endpoints personalizados de interacción con el servidor Keycloak:
+# 6. Creación de un proyecto Spring Boot para la gestión de endpoints personalizados de interacción con el servidor Keycloak: {#seccion-6}
 Keycloak es un servidor de autenticación pensado para funcionar como proveedor de recursos para proyectos más grandes, delegando la gestión de la seguridad en este software. En nuestro caso, integraremos de forma completa nuestro reino de pruebas que ha sido creado y testeado en los anteriores puntos con un proyecto diseñado en el framework de Java, Spring Boot, en el objetivo de crear una aplicación web a través de la cual se puedan realizar llamadas a nuestro servidor de recursos de forma intermediaria, pero que a su vez también pueda ser escalable y usarla como apoyo para proyectos más grandes en el que podamos introducir más funcionalidades según las necesidades de la organización mediante gestores de proyectos como puede ser Maven.
 
 Para comenzar un proyecto en Spring, podemos utilizar la [herramienta web de inicialización Spring](https://start.spring.io/) y el [repositorio central de Maven](https://mvnrepository.com/). Para nuestro proyecto, será necesaria la inserción de las siguientes dependencias en el archivo pom.xml:
@@ -187,8 +217,8 @@ La arquitectura del proyecto obedece al arquetipo de aplicaciones web con llamad
 Acompañado del presente proyecto, además del árbol completo de directorios que componen el conjunto de microservicios web, viene adjunta otra colección Postman de llamadas a los controladores de la aplicación Spring creada en esta sección que realizan funciones análogas a las llamadas a la API REST del proveedor de identidades expuestas en el anterior punto del presente informe para la gestión de la securización del servidor Keycloak, pero empleando nuestra app web como intermediaria.
 
 
-# 7. Extensión de funcionalidades personalizadas en Keycloak:
-## 7.1. ¿Qué es un SPI?
+# 7. Extensión de funcionalidades personalizadas en Keycloak: {#seccion-7}
+## 7.1. ¿Qué es un SPI? {#apartado-7-1}
 El software de Keycloak ha sido desarrollado teniendo en cuenta los principios SOLID de buenas prácticas en el desarrollo de aplicaciones. El segundo principio de esta lista, el principio Open-Closed, estipula que la correcta funcionalidad de cualquier aplicación software **debe estar abierta para su extensión, pero cerrada para su modificación**. En otras palabras, Keycloak permite a los desarrolladores la creación de nuevas funcionalidades para su servidor, puede ser realizado sin tocar sus funciones core. Este hecho es conseguido gracias al uso de la clase [ServiceLoader](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/ServiceLoader.html), la cual viene incluída en la librería principal de Java, la cual nos permite cargar implementaciones (también conocidas como proveedores de servicios, service providers o, simplemente, providers o proveedores).
 
 Un SPI (del inglés **Service Provider Interface**) es una interfaz de programación de servicios que permite a los desarrolladores crear y conectar módulos de software personalizados a una aplicación existente. En el contexto de Keycloak, un SPI es una forma de extender la funcionalidad del servidor de identidad y autenticación para satisfacer las necesidades específicas de una organización o aplicación. Las implementaciones Java de esta lógica viene formalizada por la interfaz [Spi](https://javadoc.io/doc/org.keycloak/keycloak-server-spi/latest/org/keycloak/provider/Spi.html). Keycloak proporciona una serie de SPIs predefinidos que se pueden utilizar para personalizar diferentes aspectos del servidor, como la autenticación, la autorización, la gestión de usuarios y la integración con otros sistemas. Un SPI puede estar compuesto por uno o varios proveedores, ya que un SPI es una interfaz de programación que define un conjunto de métodos que deben ser implementados por los proveedores para proporcionar una funcionalidad específica en el contexto de una aplicación. Por lo tanto, un SPI puede tener múltiples implementaciones (los proveedores) que proporcionen diferentes formas de implementar la funcionalidad definida por el SPI.
@@ -209,17 +239,33 @@ Podremos encontrar la lista completa de proveedores que se encuentran en nuestro
 
 En la lista podremos encontrar a los siguientes SPIs, entre otros:
 
-- **Password Policy:** Es una interfaz de programación de servicios que permite a los desarrolladores crear y conectar módulos de software personalizados a una aplicación existente para implementar políticas de contraseñas específicas que se ajusten a las necesidades específicas de una organización o aplicación. Su lógica se basa en la implementación de una serie de clases de la interfaz [PasswordPolicyProvider](https://javadoc.io/doc/org.keycloak/keycloak-server-spi/latest/org/keycloak/policy/PasswordPolicyProvider.html) y su factoría [PasswordPolicyProviderFactory](https://www.keycloak.org/docs-api/22.0.5/javadocs/org/keycloak/policy/PasswordPolicyProviderFactory.html), que aplicarán las políticas de contraseñas específicas, como la validación de la complejidad de la contraseña, la verificación de la expiración de la contraseña y la aplicación de restricciones de bloqueo de cuentas.
+- **Event Listener**: Es un mecanismo que permite a los desarrolladores crear y registrar sus propios oyentes de eventos (en inglés *event listeners*) personalizados, los cuales se activan en respuesta a diversos eventos que ocurren en el sistema de gestión de identidades. Algunos ejemplos de eventos incluyen el inicio de sesión de un usuario, la creación de un nuevo reino, o la actualización de un recurso en el sistema. Los oyentes de eventos se registran previamente en el sistema, y cuando un evento específico ocurre, Keycloak itera sobre la lista de oyentes registrados y llama al método correspondiente en cada uno de ellos. Esto permite a los desarrolladores extender y personalizar el comportamiento de Keycloak sin tener que modificar directamente el código fuente del sistema. Su lógica se basa en la implementación del SPI [EventListenerSpi](https://www.keycloak.org/docs-api/24.0.1/javadocs/org/keycloak/events/EventListenerSpi.html), el cual resulta de la conjunción de la interfaz proveedor [EventListenerProvider](https://www.keycloak.org/docs-api/24.0.1/javadocs/org/keycloak/events/EventListenerProvider.html) y su factoría [EventListenerProviderFactory](https://www.keycloak.org/docs-api/24.0.1/javadocs/org/keycloak/events/EventListenerProviderFactory.html).
 
-Para emplear su correcto uso en el servidor Keycloak, deberemos navegar hacia el menú situado al lado izquierdo de la consola de administración y seleccionar la opción *'Authentication'*, para posteriormente elegir la pestaña *'Policies'* y, después, la subpestaña *'Password Policy'*. Es en este punto de la consola de administración donde se gestionan todas las políticas relacionadas con los credenciales necesarios para la autenticación en el servidor. Observamos un cuadro de diálogo extensible con todas las políticas de credenciales, por lo que al pinchar en su interior para su despliegue se observará cómo nuestro nuevo proveedor se encuentra listo para ser seleccionado.
+  Si deseamos habilitar un oyente de evento personalizado ya previamente creado desde un archivo JAR en nuestra carpeta de proveedores, deberemos dirigirnos hacia la pestaña *'Realm Settings'* situada en el extremo izquierdo de nuestra interfaz de Administración, dentro del reino que deseemos adjuntar. Una vez en el interior, deberemos navegar hacia la pestaña *'Events'*, y posteriormente a la subpestaña *'Event listeners'*. Una vez allí seleccionaremos nuestro nuevo proveedor en la lista de menú desplegable denominada *'Event listeners'* y, tras haberla introducido, presionamos el botón azul llamado *'Save'*.
+
+![Inserción de un oyente de eventos a un reino](src/main/resources/screenshots/insertar-event-listener-en-reino.png)
+
+- **Password Policy:** Es una interfaz de programación de servicios que permite a los desarrolladores crear y conectar módulos de software personalizados a una aplicación existente para implementar políticas de contraseñas específicas que se ajusten a las necesidades específicas de una organización o aplicación. Su lógica se basa en la implementación del SPI [PasswordPolicySpi](https://www.keycloak.org/docs-api/21.0.0/javadocs/org/keycloak/policy/PasswordPolicySpi.html), el cual resulta de la conjunción de la interfaz proveedor [PasswordPolicyProvider](https://javadoc.io/doc/org.keycloak/keycloak-server-spi/latest/org/keycloak/policy/PasswordPolicyProvider.html) y su factoría [PasswordPolicyProviderFactory](https://www.keycloak.org/docs-api/22.0.5/javadocs/org/keycloak/policy/PasswordPolicyProviderFactory.html), que aplicarán las políticas de contraseñas específicas, como la validación de la complejidad de la contraseña, la verificación de la expiración de la contraseña y la aplicación de restricciones de bloqueo de cuentas.
+
+    Para emplear su correcto uso en el servidor Keycloak, deberemos navegar hacia el menú situado al lado izquierdo de la consola de administración y seleccionar la opción *'Authentication'*, para posteriormente elegir la pestaña *'Policies'* y, después, la subpestaña *'Password Policy'*. Es en este punto de la consola de administración donde se gestionan todas las políticas relacionadas con los credenciales necesarios para la autenticación en el servidor. Observamos un cuadro de diálogo extensible con todas las políticas de credenciales, por lo que al pinchar en su interior para su despliegue se observará cómo nuestro nuevo proveedor se encuentra listo para ser seleccionado.
 
 ![Políticas de credenciales para autorización de usuarios en Keycloak con nuestro nuevo provider instalado](src/main/resources/screenshots/politicas-credenciales-nuevo-provider.png)
 
+- **Required Action:** Las acciones requeridas (en inglés *required actions*) en Keycloak son funcionalidades que permiten a los administradores definir una serie de tareas que un usuario debe completar antes de poder realizar ciertas acciones; tales como iniciar sesión por primera vez, que el usuario acepte los términos y condiciones antes de poder iniciar sesión, o cambiar su contraseña. Además de estas acciones requeridas predefinidas, los desarrolladores pueden crear sus propios proveedores personalizados para adaptarse a las necesidades específicas de su aplicación. Su lógica se basa en la implementación del SPI [RequiredActionSpi](https://www.keycloak.org/docs-api/21.0.0/javadocs/org/keycloak/authentication/RequiredActionSpi.html), el cual resulta de la conjunción de la interfaz proveedor [PasswordPolicyProvider](https://www.keycloak.org/docs-api/21.0.0/javadocs/org/keycloak/authentication/RequiredActionProvider.html) y su factoría [RequiredActionFactory](https://www.keycloak.org/docs-api/21.0.0/javadocs/org/keycloak/authentication/RequiredActionFactory.html). La lógica detrás de las acciones requeridas implica la validación de las tareas completadas por el usuario y la actualización del estado de la cuenta de usuario en Keycloak. Cuando un usuario completa una acción requerida, el proveedor correspondiente actualiza el estado de la cuenta de usuario en Keycloak, lo que permite al usuario realizar dichas acciones permitidas.
 
-En el interior del presente repositorio se encuentran varios proveedores personalizados con los que se han ejecución varias pruebas para la realización de este informe, tal y como se verá en mayor profundidad durante los siguientes puntos. Puedes encontrarlos en la sección de código para estudiar su comportamiento.
+  En caso de haber introducido en el servidor Keycloak un nuevo proveedor hijo de esta clase, para implementarlo debidamente en el sistema, deberemos navegar hacia la pestaña *'Authentication'* situada en el extremo izquierdo de la interfaz de Administración, y posteriormente navegar hacia la subpestaña *'Required Actions'*. Aquí aparecerá un listado completo de todas las acciones requeridas del servidor, y si navegamos hacia la parte inferior, observaremos que ahí se encuentra el proveedor recién implantado.
+
+![Listado de acciones requeridas disponibles en el reino](src/main/resources/screenshots/lista-de-required-actions.png)
+
+  Seleccionamos el botón deslizable *'Enabled'* hacia el lado **Off** y hacemos click en el botón azul llamado *'Save'*. Un alert nos confirmará que la acción ha sido habilitada. El siguiente paso es pinchar en la pestaña *'Users'* del menú situado a la izquierda de la consola de Administración, escoger el usuario en el que deseemos que se ejecute dicha acción requerida cuando inicie sesión en el sistema, y elegir nuestro proveedor en el menú desplegable denominado *'Required user actions'*, dentro de la subpestaña *'Details'*.
+
+![Inserción de una acción requerida a un usuario determinado](src/main/resources/screenshots/insertar-required-action-usuario.png)
 
 
-## 7.2. Procedimiento de inclusión de proveedores personalizados en nuestro servidor Keycloak:
+En el interior del presente repositorio se encuentran varios proveedores personalizados con los que se han ejecutado varias pruebas para la realización de este informe, tal y como se verá en mayor profundidad durante los siguientes puntos. Puedes encontrarlos en la sección de código para estudiar su comportamiento.
+
+
+## 7.2. Procedimiento de inserción de proveedores personalizados en nuestro servidor Keycloak: {#apartado-7-2}
 Una vez asegurados que cumple con todos los requisitos que han sido enumerados en el anterior punto para cumplir el patrón de diseño de los proveedores, ahora deberemos obtener el paquete JAR compilado con este nuevo módulo que contiene la nueva lógica personalizada. Para ello, es tan sencillo como utilizar Maven y llamar al comando de ciclo de vida 
 
 `mvn:package`
@@ -239,12 +285,12 @@ Ahora deberemos comprobar si lo que ha aparecido en la consola de comandos se tr
 ![Lista de proveedores en nuestro servidor Keycloak con nuestro nuevo SPI incorporado](src/main/resources/screenshots/lista-con-nuevo-provider-policy.png)
 
 
-## 7.3. Configuración de proveedores mediante la consola de comandos:
+## 7.3. Configuración de proveedores mediante la consola de comandos: {#apartado-7-3}
 Debido a la enorme capacidad de interacción que un servidor Keycloak para el correcto desarrollo de sus funciones, otra opción completamente válida para la configuración de los proveedores que manejamos es mediante el uso de comandos mediante la consola de nuestro sistema operativo. Podrás encontrar toda la información oficial respecto a estos casos de uso en la [guía de configuración de proveedores](https://www.keycloak.org/server/configuration-provider).
 
 Este método, aunque totalmente factible, no es el único. Se pueden usar otros modos como inyectar los datos necesarios como variables del sistema. Esto es debido al patrón de modelo abstracto comentado en anteriores puntos, en el que el método init() de los *factories*, que es como un equivalente a instanciarlo mediante el uso de un constructor, es llamado una única vez en el ciclo de vida de la aplicación Keycloak. Existe otro método init() que acepta como parámetro de entrada a un objeto de la clase [config.Scope](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/config/Scope.html) el cual podemos usar para inyectar los valores de configuración que deseemos mediante el uso del método get() que posee Scope. Las propiedades de configuración (en inglés *configuration properties*) deben ser escritas siguiendo el formato 'kebab case' (en minúsculas y con las palabras separadas por guiones)
 
-### 7.3.1. Establecer una configuración por defecto de un proveedor:
+### 7.3.1. Establecer una configuración por defecto de un proveedor: {#punto-7-3-1}
 Los proveedores por defecto son aquellas implementaciones primarias que están activas y siendo empleadas en tiempo de ejecución (en inglés *runtime*). Dependiendo del SPI, existen algunos tipos que permiten la coexistencia de varias implementaciones de un mismo proveedor, pero solamente una podrá ser utilizada en tiempo de ejecución. 
 
 Para sobreescribir la implementación por defecto de un proveedor, deberemos abrir una consola de comandos en el directorio de nuestro sistema donde tengamos guardada la copia donde hayamos descomprimido el servidor Keycloak, e introducir el siguiente comando:
@@ -253,7 +299,7 @@ Para sobreescribir la implementación por defecto de un proveedor, deberemos abr
 
 Donde `<nombre-spi>` es el nombre del SPI cuyo valor por defecto deseemos modificar (podemos verlo en la lista de proveedores en el reino *master*, tal y como hemos comentado en el anterior punto), y `<provider-id>` es la cadena de texto que retorna el método getId() de la clase *factory* que posee el archivo JAR de nuestro proyecto Maven en el que se creó el proveedor personalizado.
 
-### 7.3.2. Habilitar/deshabilitar un proveedor del servidor Keycloak:
+### 7.3.2. Habilitar/deshabilitar un proveedor del servidor Keycloak: {#punto-7-3-2}
 Si lo que deseamos es habilitar un proveedor dentro de nuestro servidor Keycloak, es decir, que hagamos que aparezca dentro de la lista de proveedores existente en nuestro reino *master*, deberemos abrir la consola de comandos nuevamente en el directorio donde radique nuestro servidor e introducir la siguiente instrucción:
 
 `bin/kc.[sh|bat] build --spi-<nombre-spi>-<provider-id>-enabled=true`
@@ -264,3 +310,43 @@ Si lo que deseamos es deshabilitar a un proveedor, es decir, que deje de estar e
 
 `bin/kc.[sh|bat] build --spi-<nombre-spi>-<provider-id>-enabled=false`
 
+
+## 7.4. Eventos de proveedores: {#apartado-7-4}
+Los eventos de proveedores (*provider events* en inglés) son una característica fundamental de la plataforma Keycloak, basado en el seguimiento y registro de determinados eventos que ocurren en el interior del servidor del gestor de identidades, los cuales permiten disparar (*trigger*) una determinada lógica especificada en el evento a través del uso de *listeners*, cuya clase padre es [ProviderEvent](https://javadoc.io/doc/org.keycloak/keycloak-server-spi/latest/org/keycloak/provider/ProviderEvent.html), la cual posee las siguientes implementaciones:
+
+1. **[ClientCreationEvent](https://javadoc.io/doc/org.keycloak/keycloak-server-spi/latest/org/keycloak/models/ClientModel.ClientCreationEvent.html):** Este evento se dispara cuando se crea un nuevo cliente en el servidor Keycloak.
+2. **[ClientUpdatedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/ClientModel.ClientUpdatedEvent.html):** Este evento se dispara cuando se actualiza un cliente en el servidor Keycloak.
+3. **[ClientIdChangeEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/ClientModel.ClientIdChangeEvent.html):** Este evento se dispara cuando se cambia el valor de ID en un cliente del servidor Keycloak.
+4. **[ClientRemovedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/ClientModel.ClientRemovedEvent.html):** Este evento se dispara cuando se elimina a un cliente del servidor Keycloak.
+5. **[ClientProtocolUpdatedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/ClientModel.ClientProtocolUpdatedEvent.html):** Este evento se dispara cuando se modifica algún protocolo de un cliente en el servidor Keycloak.
+6. **[ClientScopeRemovedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/ClientScopeModel.ClientScopeRemovedEvent.html):** Este evento se dispara cuando se elimina algún alcance definido en un cliente del servidor Keycloak.
+7. **[GroupRemovedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/GroupModel.GroupRemovedEvent.html):** Este evento se dispara cuando se elimina a un grupo de usuarios en el servidor Keycloak.
+8. **[GroupPathChangeEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/GroupModel.GroupPathChangeEvent.html):** Este evento se dispara cuando se cambia la ruta de un grupo de usuarios en el servidor Keycloak.
+9. **[RealmCreationEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/RealmModel.RealmCreationEvent.html):** Este evento se dispara **antes** de guardar la información en la base de datos, durante la creación de un nuevo reino/dominio en el servidor Keycloak.
+10. **[RealmPostCreateEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/RealmModel.RealmPostCreateEvent.html):** Este evento se dispara **después** de guardar la información en la base de datos, durante la creación de un nuevo reino/dominio en el servidor Keycloak.
+11. **[RealmRemovedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/RealmModel.RealmRemovedEvent.html):** Este evento se dispara cuando se elimina un reino/dominio del servidor Keycloak.
+12. **[IdentityProviderUpdatedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/RealmModel.IdentityProviderUpdatedEvent.html):** Este evento se dispara cuando se modifica a un proveedor de identidades en el servidor Keycloak.
+13. **[IdentityProviderRemovedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/RealmModel.IdentityProviderRemovedEvent.html):** Este evento se dispara cuando se elimina un proveedor de identidades en el servidor Keycloak.
+14. **[RoleRemovedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/RoleContainerModel.RoleRemovedEvent.html):** Este evento se dispara cuando se elimina un rol en el servidor Keycloak.
+15. **[RoleNameChangeEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/RoleModel.RoleNameChangeEvent.html):** Este evento se dispara cuando se modifica el nombre de un rol en el servidor Keycloak.
+16. **[UserRemovedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/UserModel.UserRemovedEvent.html):** Este evento se dispara cuando se elimina un usuario en el servidor Keycloak.
+17. **[FederationIdentityCreatedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/FederatedIdentityModel.FederatedIdentityCreatedEvent.html):** Este evento se dispara cuando se crea una nueva conexión entre una federación de identidades y el servidor Keycloak.
+18. **[FederationIdentityRemovedEvent](https://javadoc.io/static/org.keycloak/keycloak-server-spi/24.0.3/org/keycloak/models/FederatedIdentityModel.FederatedIdentityRemovedEvent.html):** Este evento se dispara cuando se elimina una conexión existente entre una federación de identidades y el servidor Keycloak.
+
+Para ejecutar los disparadores que llaman a los *listeners* de cualquiera de estos eventos, simplemente deberemos ejecutar la siguiente lógica dentro del método *postInit()* situado dentro de la clase *factory* de cualquiera de nuestros proveedores personalizados de la siguiente manera:
+
+![Código de ejemplo para un método postInit() con el uso de un evento](src/main/resources/screenshots/metodo-postinit-evento.png)
+
+En este caso en particular se le ha ordenado que imprima en la consola de comandos de Keycloak un mensaje de aviso, aunque se le puede introducir la lógica que sea necesaria. Cuando en nuestro servidor Keycloak ocurra el evento que dispara el *listener*, se ejecutará dicha lógica implementada:
+
+![Consola de comandos devolviendo el resultado de la lógica implementada en el evento](src/main/resources/screenshots/evento-provider-capturado-cli.png)
+
+
+## 7.5. Cómo crear tu propio SPI: {#apartado-7-5}
+Como ya se ha demostrado en otros puntos de este informe, uno de los puntos fuertes que posee Keycloak es su adaptabilidad al cambio hacia las diferentes necesidades que necesite el programador. Es posible crear ya no un proveedor, sino un SPI propio en el que poder definir una lógica más concreta y personalizada para el proyecto que estás desarrollando. El procedimiento es similar al explicado con los proveedores personalizados explicados anteriormente, creando en un proyecto Maven desde cero una clase *provider* que implemente de la interfaz [Provider](https://javadoc.io/doc/org.keycloak/keycloak-server-spi/latest/org/keycloak/provider/Provider.html) y otra clase *factory* que implemente de la interfaz [ProviderFactory](https://javadoc.io/doc/org.keycloak/keycloak-server-spi/latest/org/keycloak/provider/ProviderFactory.html); pero ahora además será necesario una tercera clase que implemente de la interfaz [Spi](https://javadoc.io/doc/org.keycloak/keycloak-server-spi/latest/org/keycloak/provider/Spi.html) para que contenga la arquitectura necesaria para el patrón abstracto de los SPIs. Así pues, también será necesario el correspondiente archivo dentro del subdirectorio `src/main/resources/META-INF/services` adecuadamente dispuesto.
+
+Ahora que nuestro SPI personalizado está creado, será necesaria también la debida creación de, como mínimo, un proveedor que emplee su lógica. Así pues, será necesaria la creación de dos clases más, el *provider* y la *factory*, así como otro archivo más adecuadamente relleno en el subdirectorio `src/main/resources/META-INF/services`. Este sería, en realidad, el paso que realizamos cuando creamos los proveedores personalizados en el primer apartado de esta sección. Después de seguir todos estos pasos, lo siguiente será emplear los comandos del ciclo de vida de Maven para obtener el archivo JAR de este proyecto y guardarlo dentro del directorio */providers* de la ruta donde tengamos instalado nuestro servidor Keycloak en el sistema.
+
+Por último, reiniciamos nuevamente nuestro servidor Keycloak y le especificamos que revise los proveedores personalizados empleando los comandos ya definidos anteriormente. Tras el reinicio, podremos volver a la lista de proveedores a través de nuestro reino *master*, donde podremos encontrar nuestro nuevo SPI con su correspondiente proveedor asociado:
+
+![Listado de SPIs del servidor con la instrucción personalizada en su interior](src/main/resources/screenshots/mi-spi-personalizado.png)
