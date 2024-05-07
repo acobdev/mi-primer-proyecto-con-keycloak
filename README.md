@@ -3,51 +3,37 @@ Proyecto didáctico de iniciación al gestor de identidades Keycloak realizado p
 
 
 # Índice de contenidos:
-[1. Introducción](#seccion-1)
-
-[2. Terminología y conceptos básicos](#seccion-2)
-
-[3. Enlaces de interés](#seccion-3)
-
-[4. Primeros pasos con Keycloak](#seccion-4)
-
-  [4.1. Instalación del servidor en el sistema](#apartado-4-1)
-
-  [4.2. Configuración inicial del servidor Keycloak]({#apartado-4-2})
-
-  [4.3. Creación del reino de pruebas](#apartado-4-3)
-
-  [4.4. Creación de la aplicación cliente/servidor de recursos](#apartado-4-4)
-
-  [4.5. Creación de otras entidades Keycloak](#apartado-4-5)
-
-    [4.5.1. Creación de usuarios](#punto-4-5-1)
-
-    [4.5.2. Creación de grupos de usuarios](#punto-4-5-2)
-
-    [4.5.3. Creación de roles](#punto-4-5-3)
-
-[5. Gestión de autenticación/autorización de identidades mediante llamadas HTTP a la API REST de Keycloak](#seccion-5)
-
-[6. Creación de un proyecto Spring Boot para la gestión de endpoints personalizados de interacción con el servidor Keycloak](#seccion-6)
-
-[7. Extensión de funcionalidades personalizadas en Keycloak](#seccion-7)
-
-  [7.1. ¿Qué es un SPI?](#apartado-7-1)
-
-  [7.2. Procedimiento de inserción de proveedores personalizados en nuestro servidor Keycloak](#apartado-7-2)
-
-  [7.3. Configuración de proveedores mediante la consola de comandos](#apartado-7-3)
-
-    [7.3.1. Establecer una configuración por defecto de un proveedor](#punto-7-3-1)
-
-    [7.3.2. Habilitar/deshabilitar un proveedor del servidor Keycloak](#punto-7-3-2)
-
-  [7.4. Eventos de proveedores](#apartado-7-4)
-
-  [7.5. Cómo crear tu propio SPI](#apartado-7-5)
-
-[8. Proceso de autenticación de un usuario en el servidor Keycloak](#seccion-8)
+- [1. Introducción](#seccion-1)
+- [2. Terminología y conceptos básicos](#seccion-2)
+- [3. Enlaces de interés](#seccion-3)
+- [4. Primeros pasos con Keycloak](#seccion-4)
+  - [4.1. Instalación del servidor en el sistema](#apartado-4-1)
+  - [4.2. Configuración inicial del servidor Keycloak]({#apartado-4-2})
+  - [4.3. Creación del reino de pruebas](#apartado-4-3)
+  - [4.4. Creación de la aplicación cliente/servidor de recursos](#apartado-4-4)
+  - [4.5. Creación de otras entidades Keycloak](#apartado-4-5)
+    - [4.5.1. Creación de usuarios](#punto-4-5-1)
+    - [4.5.2. Creación de grupos de usuarios](#punto-4-5-2)
+    - [4.5.3. Creación de roles](#punto-4-5-3)
+- [5. Gestión de autenticación/autorización de identidades mediante llamadas HTTP a la API REST de Keycloak](#seccion-5)
+- [6. Creación de un proyecto Spring Boot para la gestión de endpoints personalizados de interacción con el servidor Keycloak](#seccion-6)
+- [7. Extensión de funcionalidades personalizadas en Keycloak](#seccion-7)
+  - [7.1. ¿Qué es un SPI?](#apartado-7-1)
+  - [7.2. Procedimiento de inserción de proveedores personalizados en nuestro servidor Keycloak](#apartado-7-2)
+  - [7.3. Configuración de proveedores mediante la consola de comandos](#apartado-7-3)
+    - [7.3.1. Establecer una configuración por defecto de un proveedor](#punto-7-3-1)
+    - [7.3.2. Habilitar/deshabilitar un proveedor del servidor Keycloak](#punto-7-3-2)
+  - [7.4. Eventos de proveedores](#apartado-7-4)
+  - [7.5. Cómo crear tu propio SPI](#apartado-7-5)
+- [8. Proceso de autenticación de un usuario en el servidor Keycloak](#seccion-8)
+- [9. Personalización de interfaces gráficas para la mejora de UX en Keycloak](#seccion-9)
+  - [9.1. Temas por defecto](#apartado-9-1) 
+  - [9.2. Tipos de temas en Keycloak](#apartado-9-2)
+  - [9.3. Estructura interna de los temas](#apartado-9-3)
+  - [9.4. Personalizando nuestras interfaces de usuario](#apartado-9-4)
+    - [9.4.1. Personalizando el logo de la sección superior de Keycloak](#punto-9-4-1)
+    - [9.4.2. Personalizando la pantalla de inicio de sesión de Keycloak](#punto-9-4-2)
+    - [9.4.3. Personalizando la pantalla de bienvenida de Keycloak](#punto-9-4-3)
 
 
 <div id='seccion-1' />
@@ -127,11 +113,9 @@ Lo cual nos informará que el servidor se encuentra listo para interactuar con �
 
 Si no puedes acceder al servidor desde el localhost o quieres arrancar Keycloak directamente desde la consola de comandos, puedes usar las variables de entorno *KEYCLOAK_ADMIN* y *KEYCLOAK_ADMIN_PASSWORD* para crear una cuenta de administración de la siguiente manera:
 
-`export KEYCLOAK_ADMIN=<username>`
-
-`export KEYCLOAK_ADMIN_PASSWORD=<password>`
-
-`bin/kc.[sh|bat] start`
+    export KEYCLOAK_ADMIN=<username>
+    export KEYCLOAK_ADMIN_PASSWORD=<password>
+    bin/kc.[sh|bat] start
 
 
 <div id='apartado-4-2' />
@@ -475,3 +459,125 @@ Llegados a este punto, también es importante explicar qué son los *requerimien
 Una vez que ya dispongamos de nuestro flujo de autenticación correctamente definido según las necesidades de nuestro proyecto, deberemos adicionarlo al cliente encargado de dejar acceder a los usuarios sujetos a dicho proceso de autenticación. Para ello, deberemos acceder a la pestaña *'Clients'* del menú izquierdo de nuestra consola de administración, seleccionar el cliente de nuestro interés, acceder a su interior, viajar hacia la subpestaña *'Advanced'* y posteriormente a la sección *'Authentication flow overrides'*. Ahí encontraremos los menús desplegables donde encontraremos todos los flujos del servidor, disponiendo su uso según convenga a los intereses de nuestro proyecto.
 
 ![Asignación del flujo de autenticación al cliente Keycloak deseado](src/main/resources/screenshots/asignando-flujo-autenticacion-a-cliente.png)
+
+
+<div id='seccion-9' />
+
+# 9. Personalización de interfaces gráficas para la mejora de UX en Keycloak:
+Dentro del amplísimo arsenal de opciones de personalización que el gestor de identidades Keycloak posee en su sistema lógico, en el presente punto trataremos acerca de la manipulación de la interfaz de usuario con la que el sistema se comunica visualmente con el usuario que desea autenticarse en él mediante el uso de *temas* (en inglés **themes**). Los temas son una colección de archivos de plantilla y recursos estáticos, como hojas de estilo CSS y archivos JavaScript, que se utilizan para renderizar las páginas con las que el usuario interacciona gráficamente con Keycloak. Podrás encontrar toda la información relevante para la creación y uso de temas en la [página oficial de desarrollo de servidores](https://www.keycloak.org/docs/latest/server_development/#_themes).
+
+La lógica que sigue Keycloak para implementar los themes se basa en el marco de plantillas de [Thymeleaf](https://www.thymeleaf.org/) y el sistema de herencia de plantillas de [Apache FreeMarker](https://freemarker.apache.org/). Cada tema de Keycloak está compuesto por una serie de archivos de plantilla que definen la estructura y el contenido de las páginas de la aplicación. Los archivos de plantilla se escriben en HTML y Thymeleaf, y se almacenan en el subdirectorio `/themes` existente en el directorio de instalación de Keycloak en el interior de nuestro sistema, hermano del subdirectorio `/providers` para los proveedores que vimos anteriormente.
+
+
+<div id='apartado-9-1' />
+
+## 9.1. Temas por defecto:
+Keycloak trae por defecto algunos temas, los cuales son los que vemos cuando interactuamos visualmente con él. Estos temas pueden visualizarse entrando en el archivo JAR **org.keycloak.keycloak-themes** situado dentro del subdirectorio `/lib/lib/main` del directorio de instalación de Keycloak. Podremos descomprimirlos y observar la estructura de archivos necesaria para la creación de un tema personalizado, el cual posee las siguientes carpetas:
+- */base*: Es el esqueleto del tema base que contiene las plantillas HTML y los paquetes de mensajes para disponer de traducciones en varios idiomas. Todos los temas, incluidos los personalizados, son generalmente heredados de este esqueleto.
+- */keycloak*: Contiene las imágenes y las hojas de estilo que se emplearán en los temas. Si no empleamos ningún tema personalizado, éste será el empleado por defecto.
+- */keycloak.v2*: Tema basado en React, parte de la nueva consola de Administración. La vieja consola está obsoleta y dejó de tener soporte oficial en la versión Keycloak 21.
+
+No es recomendable modificar los temas ya existentes, sino crear un nuevo tema que extienda alguno de los dos anteriores.
+
+
+<div id='apartado-9-2' />
+
+## 9.2. Tipos de temas en Keycloak:
+Existen cinco tipos diferentes de temas:
+1. *Welcome*: Temas diseñados para la pantalla de inicio en Keycloak.
+2. *Login*: Temas diseñados para las pantallas de inicio de sesión, contraseñas de un solo uso, registro, autorización de permisos y olvido de contraseñas en Keycloak.
+3. *Account*: Temas diseñados para las pantallas de gestión de cuentas de usuario en Keycloak.
+4. *Admin Console*: Temas diseñados para las pantallas de la consola de Administración en Keycloak.
+5. *Email*: Temas diseñados para los correos electrónicos que son enviados por el servidor Keycloak.
+
+
+<div id='apartado-9-3' />
+
+## 9.3. Estructura interna de los temas:
+Al igual que los proveedores, los temas deben tener su propio patrón abstracto para que el servidor Keycloak los reconozca como propios y podamos trabajar con ellos. Para ello, dentro del directorio de nuestro nuevo tema, deberemos poseer una serie de subdirectorios con los nombres de los tipos de temas que deseemos implementar, vistos en el anterior punto de este informe.
+
+Cada tema debe contener en su interior un archivo *theme.properties*. Éste es un archivo de configuración que se utiliza en Keycloak para registrar y configurar los temas de la aplicación. Este archivo contiene una serie de propiedades que definen el nombre del tema, su directorio y otras opciones de configuración, proporcionando una manera de registrar los temas en Keycloak sin tener que modificar el código fuente de la aplicación. Por ejemplo, un caso de *theme.properties* que podemos encontrar en el subdirectorio `/base/account` del archivo JAR descomprimido anteriormente:
+
+    parent=base
+    import=common/keycloak
+    styles=css/account.css
+    stylesCommon=node_modules/patternfly/dist/css/patternfly.min.css node_modules/patternfly/dist/css/patternfly-additions.min.css
+    scripts=js/script1.js
+
+En él se puede ver que hacemos que nuestro nuevo tema extienda del tema `base` para que podamos trabajar usando sus códigos HTML y paquetes de mensajes de traducción, además de importar el tema `common` para incluir algunos de sus estilos. También podremos incluir las hojas de estilo CSS que deseemos indicándolo en el apartado *styles* y guardando dichos archivos en el subdirectorio `/resources/css` de nuestro tema. Los *scripts* son adiciones opcionales por si necesitamos incluir archivos JavaScript a medida para nuestras plantillas, guardándolos en el subdirectorio `/resources/js`.
+
+Además de este fichero **properties**, podremos observar desde el JAR descomprimido con los temas predefinidos que existen otros dos directorios dentro de la carpeta del tipo de tema, los cuales son:
+- **Messages**: En el interior de este directorio podremos encontrar todo tipo de ficheros **properties** utilizados para las traducciones de las interfaces gráficas en los distintos idiomas a los que se les desee dar soporte.
+- **Resources**: En su interior habrá otras carpetas para guardar los archivos de imagen, las hojas de estilo y los scripts de JS.
+
+También podremos encontrar los diferentes ficheros FTL que
+
+
+<div id='apartado-9-4' />
+
+## 9.4. Personalizando nuestras interfaces de usuario:
+Para crear un nuevo tema personalizado, crearemos dentro del subdirectorio `/themes` del directorio de instalación de Keycloak con el nombre de nuestra elección para este primer tema. En el caso de que deseemos crear un tema con una revisión completa, la mejor manera de empezar será copiando todos los archivos que se encuentran dentro del directorio `/base` que se encuentra dentro del archivo JAR descomprimido que se ha explicado en el anterior párrafo.
+
+Una vez creado el tema en el subdirectorio especificado, podremos reiniciar nuestro servidor Keycloak e insertarlo en el reino que más nos interese. Para ello, deberemos presionar la opción **'Realm Settings'** situado en el menú del extremo izquierdo de la consola de Administración, y una vez en su interior buscar la pestaña **'Themes'**. Aquí podrás poner los temas que desees para el inicio de sesión, la gestión de cuentas, la propia consola de Administración y el envío de correos electrónicos.
+
+![Pantalla de la consola de Administración para la gestión de temas](src/main/resources/screenshots/asignando-nuevo-tema-visual.png)
+
+Es importante recordar que *los temas tienen un alcance definido por el reino en el que se encuentren*, por lo que podemos tener diferentes temas para emplear en diferentes reinos. Ten en cuenta este detalle para tener el alcance correcto en tu proyecto.
+
+<div id='punto-9-4-1' />
+
+### 9.4.1. Personalizando el logo de la sección superior de Keycloak:
+Si nos fijamos en la parte superior de la consola de Administración, nos daremos cuenta de que allí reza el logo oficial de Keycloak. Mediante el uso de un tema personalizado, podremos cambiar dicho logo por el de nuestra empresa o proyecto. Para ello, sobreescribiremos el directorio **/account** que se encuentra dentro de */keycloak.v2* en el archivo JAR descomprimido anteriormente y lo insertaremos en nuestro recién creado tema. Pondremos nuestro nuevo logo en el interior del subdirectorio **/resources/public** y abriremos el archivo *theme.properties* situado dentro del directorio recién copiado */account*. En su interior veremos el siguiente bloque de código a modificar:
+
+    # This is the logo in upper lefthand corner.
+    # It must be a relative path.
+    logo=/public/mi-nuevo-logo.png
+
+Es importante destacar que, durante la fase de desarrollo, si deseamos visualizar el efecto de nuestros cambios inmediatamente sin necesidad de reiniciar el servidor; necesitaremos ejecutar Keycloak con el siguiente comando:
+
+`bin/kc.[sh|bat] start --spi-theme-static-max-age=-1 --spi-theme-cache-themes=false --spi-theme-cache-templates=false`
+
+Reiniciamos el servidor para recargar los cambios realizados y accedemos al reino al que hayamos dispuesto el tema de configuración de cuentas. Veremos cómo se habrá actualizado con nuestro nuevo logo:
+
+![Pantalla de gestión de cuentas con nuestro nuevo logo](src/main/resources/screenshots/nuevo-logo-para-nuestro-reino.png)
+
+<div id='punto-9-4-2' />
+
+### 9.4.2. Personalizando la pantalla de inicio de sesión de Keycloak:
+Sin duda, una de las pantallas más visitadas tanto por nosotros los desarrolladores/administradores como el resto de usuarios que emplean nuestro servidor de gestión de identidades, es la pantalla de inicio de sesión. Es esa pantalla que nos pide nuestro nombre y credenciales para iniciar el proceso de autenticación en la plataforma. Con nuestro nuevo y flamante tema, podremos actualizar esta pantalla y darle el aspecto que más deseemos para nuestro proyecto. Para ello, lo que deberemos hacer es pegar en nuestro tema personalizado el directorio **/keycloak/login** del fichero JAR descomprimido y fusionarlo con el que ya poseemos en nuestro tema. Veremos que se han añadido las carpetas **/css** y **/img**. En este caso en particular procederemos a cambiar la imagen de fondo de esta pantalla de inicio de sesión, pero si es necesario entrar más en materia podremos modificar a nuestro antojo los ficheros FTL donde se encuentran las plantillas, que en conjunción con las hojas de estilo CSS, nos permitirán diseñar una página de inicio de sesión a medida completamente personalizada.
+
+Seleccionamos la imagen que deseemos emplear como fondo de pantalla y la guardamos dentro del subdirectorio **/resources/img** de nuestro tema de login y, posteriormente, abriremos el archivo *login.css* situado dentro de la carpeta **/resources/css**. Una vez en su interior, accedemos a la sección que especifica la ruta de acceso a la imagen de fondo, la cual se encuentra en la sección análoga a la que hay bajo estas líneas:
+
+    .login-pf body {
+    background: url("../img/keycloak-bg.png") no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    }
+
+Deberemos modificar la URL situada en la línea **background** con el nombre de la imagen que deseemos introducir como fondo de pantalla. Debemos recordar cambiar el tema establecido en el menú desplegable *'Login theme'* situado en la pestaña *'Themes'* del menú *'Realm Settings'* situado en el extremo izquierdo de la consola de Administración, y posteriormente acceder a la URL del reino en el que hayamos establecido estos cambios. Podremos apreciar nuestra nueva pantalla de inicio de sesión con la imagen definida en la hoja de estilo:
+
+![Pantalla de inicio de sesión de nuestro reino con la imagen de fondo modificada](src/main/resources/screenshots/pantalla-inicio-sesion-modificada.png)
+
+<div id='punto-9-4-3' />
+
+### 9.4.3. Personalizando la pantalla de bienvenida de Keycloak:
+Cuando introducimos en nuestro navegador favorito nuestro localhost seguido del puerto de escucha que hayamos dispuesto a Keycloak, observaremos que nos nuestra una pantalla de bienvenida para que nos registremos como alguno de los usuarios que estén registrados en el reino **master**, la cual se verá como se expone bajo estas líneas:
+
+![Pantalla clásica de bienvenida de nuestro servidor Keycloak](src/main/resources/screenshots/pantalla-de-bienvenida-keycloak.png)
+
+Podremos crear nuestra nueva plantilla para la página de bienvenida creando un nuevo subdirectorio dentro de nuestro tema con el nombre **/welcome**; aunque el mejor consejo es copiar la carpeta situada en el interior de **/theme/keycloak** del archivo JAR descomprimido al inicio del presente punto. Al igual que en el punto anterior, lo que haremos será cambiar la imagen de fondo de pantalla para insertarle la nuestra personalizada. Para ello, y siguiendo el mismo procedimiento que en el punto anterior, entraremos en la hoja de estilo **welcome.css** situada en el interior de la ruta **/welcome/resources/css** y cambiaremos la información del siguiente bloque de código:
+
+    body {
+	  background: #fff url(../bg.png) no-repeat center bottom fixed;
+	  background-size: cover;
+    }
+
+Donde nuevamente cambiaremos la URL de **background** por el nombre de nuestra nueva imagen de fondo.
+
+Como se puede observar en la sección *'Themes'* del apartado *'Realm Settings'* de la consola de Administración, este es el único tipo de tema que no puede ser modificado desde esta sección; por lo que para poder actualizar el aspecto de esta plantilla de bienvenida personalizada será necesario inicializar el servidor Keycloak empleando el siguiente comando:
+
+`bin/kc.[sh|bat] start-dev --spi-theme-welcome-theme=<nombre-theme>`
+
+Donde `<nombre-theme>` es el nombre de la carpeta situada en el subdirectorio **/themes** donde se encuentra nuestro fichero recién copiado **/welcome**. Una vez arrancado el servidor como de costumbre, únicamente tendremos que acceder al localhost con el puerto de escucha de Keycloak para visualizar nuestra nueva pantalla de bienvenida:
+
+![Pantalla de bienvenida de nuestro servidor Keycloak con la imagen de fondo modificada](src/main/resources/screenshots/pantalla-de-bienvenida-personalizada.png)
